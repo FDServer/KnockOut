@@ -1,7 +1,7 @@
 package de.fdserver.knockout;
 
-import de.myfdweb.minecraft.itemsapi.ItemBuilder;
-import de.myfdweb.minecraft.itemsapi.Pages;
+import de.myfdweb.minecraft.api.items.ItemBuilder;
+import de.myfdweb.minecraft.api.items.Pages;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

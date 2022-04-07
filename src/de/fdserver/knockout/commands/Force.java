@@ -2,8 +2,9 @@ package de.fdserver.knockout.commands;
 
 import de.fdserver.knockout.Kit;
 import de.fdserver.knockout.KnockOut;
-import de.myfdweb.minecraft.itemsapi.ItemBuilder;
-import de.myfdweb.minecraft.itemsapi.Pages;
+import de.myfdweb.minecraft.api.CoreAPI;
+import de.myfdweb.minecraft.api.items.ItemBuilder;
+import de.myfdweb.minecraft.api.items.Pages;
 import joptsimple.internal.Strings;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -33,7 +34,7 @@ public class Force implements CommandExecutor, TabCompleter {
                     for (Kit kit : KnockOut.getAllKits())
                         pages.addContent(new Pages.Item(new ItemBuilder(kit.getMaterial()).setDisplayName(kit.getDisplayName()).build(), (p1, item) -> {
                             KnockOut.setCurrentKit(kit);
-                            p1.sendMessage("§aDu hast das Kit zu " + kit.getName() + " geändert.");
+                            p1.sendMessage(CoreAPI.getPrefix("KnockOut") + "Du hast das Kit zu " + kit.getName() + " geändert.");
                         }));
                 } else if (command.getName().equals("forcemap")) {
                     if (!sender.hasPermission(KnockOut.PERMISSION_FORCE_MAP)) {
@@ -44,7 +45,7 @@ public class Force implements CommandExecutor, TabCompleter {
                     for (String map : KnockOut.getAllMaps())
                         pages.addContent(new Pages.Item(new ItemBuilder(Material.FILLED_MAP).setDisplayName("§a" + map).setLore("§7von " + KnockOut.getMapBuilder(map)).build(), (p1, item) -> {
                             KnockOut.setCurrentMap(map);
-                            p1.sendMessage("§aDie hast die Map zu " + map + " geändert.");
+                            p1.sendMessage(CoreAPI.getPrefix("KnockOut") + "Die hast die Map zu " + map + " geändert.");
                         }));
                 }
                 pages.open(p);
@@ -54,18 +55,18 @@ public class Force implements CommandExecutor, TabCompleter {
                         sender.sendMessage(KnockOut.PERMISSION_ERROR);
                         return true;
                     }
-                    sender.sendMessage("§cSyntax: §a/forcekit <Kit>");
+                    sender.sendMessage(CoreAPI.getPrefix("KnockOut") + "§cSyntax: §a/forcekit <Kit>");
                     List<String> kits = new ArrayList<>();
                     for (Kit k : KnockOut.getAllKits())
                         kits.add(k.getName());
-                    sender.sendMessage("§aEs gibt folgende Kits zur Auswahl: " + Strings.join(kits, ", "));
+                    sender.sendMessage(CoreAPI.getPrefix("KnockOut") + "Es gibt folgende Kits zur Auswahl: " + Strings.join(kits, ", "));
                 } else if (command.getName().equals("forcemap")) {
                     if (!sender.hasPermission(KnockOut.PERMISSION_FORCE_MAP)) {
                         sender.sendMessage(KnockOut.PERMISSION_ERROR);
                         return true;
                     }
-                    sender.sendMessage("§cSyntax: §a/forcekit <Kit>");
-                    sender.sendMessage("§aEs gibt folgende Kits zur Auswahl: " + Strings.join(KnockOut.getAllMaps(), ", "));
+                    sender.sendMessage(CoreAPI.getPrefix("KnockOut") + "§cSyntax: §a/forcekit <Kit>");
+                    sender.sendMessage(CoreAPI.getPrefix("KnockOut") + "Es gibt folgende Kits zur Auswahl: " + Strings.join(KnockOut.getAllMaps(), ", "));
                 }
             }
         } else {
@@ -78,10 +79,10 @@ public class Force implements CommandExecutor, TabCompleter {
                 for (Kit k : KnockOut.getAllKits())
                     if (k.getName().equalsIgnoreCase(kit)) {
                         KnockOut.setCurrentKit(k);
-                        sender.sendMessage("§aDu hast das Kit zu " + k.getName() + " geändert.");
+                        sender.sendMessage(CoreAPI.getPrefix("KnockOut") + "Du hast das Kit zu " + k.getName() + " geändert.");
                         return true;
                     }
-                sender.sendMessage("§cEs wurde kein Kit mit diesem Namen gefunden.");
+                sender.sendMessage(CoreAPI.getPrefix("KnockOut") + "§cEs wurde kein Kit mit diesem Namen gefunden.");
             } else if (command.getName().equals("forcemap")) {
                 if (!sender.hasPermission(KnockOut.PERMISSION_FORCE_MAP)) {
                     sender.sendMessage(KnockOut.PERMISSION_ERROR);
@@ -91,10 +92,10 @@ public class Force implements CommandExecutor, TabCompleter {
                 for (String m : KnockOut.getAllMaps())
                     if (m.equalsIgnoreCase(map)) {
                         KnockOut.setCurrentMap(map);
-                        sender.sendMessage("§aDu hast die Map zu " + m + " geändert.");
+                        sender.sendMessage(CoreAPI.getPrefix("KnockOut") + "Du hast die Map zu " + m + " geändert.");
                         return true;
                     }
-                sender.sendMessage("§cEs wurde keine Map mit diesem Namen gefunden.");
+                sender.sendMessage(CoreAPI.getPrefix("KnockOut") + "§cEs wurde keine Map mit diesem Namen gefunden.");
             }
         }
         return true;

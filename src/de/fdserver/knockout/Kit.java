@@ -1,6 +1,6 @@
 package de.fdserver.knockout;
 
-import de.myfdweb.minecraft.itemsapi.ItemBuilder;
+import de.myfdweb.minecraft.api.items.ItemBuilder;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;

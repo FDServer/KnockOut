@@ -2,10 +2,9 @@ package de.fdserver.knockout;
 
 import com.google.common.io.Files;
 import de.fdserver.knockout.commands.Force;
-import de.fdserver.knockout.commands.Troll;
 import de.fdserver.knockout.events.Events;
 import de.fdserver.knockout.events.SpecialKits;
-import de.myfdweb.minecraft.itemsapi.Pages;
+import de.myfdweb.minecraft.api.CoreAPI;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.apache.commons.io.FileUtils;
@@ -57,8 +56,6 @@ public class KnockOut extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new Vote(), this);
         getCommand("forcekit").setExecutor(new Force());
         getCommand("forcemap").setExecutor(new Force());
-        getCommand("troll").setExecutor(new Troll());
-        getCommand("notroll").setExecutor(new Troll());
         Bukkit.getScheduler().runTaskTimer(this, () -> {
             if (--countdown <= 0) {
                 if (kitVote.isEmpty())
@@ -112,6 +109,21 @@ public class KnockOut extends JavaPlugin {
             e.printStackTrace();
         }
         currentMap = Bukkit.createWorld(new WorldCreator(map));
+        currentMap.setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false);
+        currentMap.setGameRule(GameRule.DISABLE_RAIDS, true);
+        currentMap.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
+        currentMap.setGameRule(GameRule.COMMAND_BLOCK_OUTPUT, false);
+        currentMap.setGameRule(GameRule.DO_ENTITY_DROPS, false);
+        currentMap.setGameRule(GameRule.DO_FIRE_TICK, false);
+        currentMap.setGameRule(GameRule.DO_MOB_SPAWNING, false);
+        currentMap.setGameRule(GameRule.DO_WEATHER_CYCLE, false);
+        currentMap.setGameRule(GameRule.DROWNING_DAMAGE, false);
+        currentMap.setGameRule(GameRule.FALL_DAMAGE, false);
+        currentMap.setGameRule(GameRule.FIRE_DAMAGE, false);
+        currentMap.setGameRule(GameRule.FREEZE_DAMAGE, false);
+        currentMap.setGameRule(GameRule.DO_TILE_DROPS, false);
+        currentMap.setGameRule(GameRule.DO_TRADER_SPAWNING, false);
+        currentMap.setGameRule(GameRule.MOB_GRIEFING, false);
         for (Player p : Bukkit.getOnlinePlayers())
             respawn(p);
         if (lastMap != null) {
@@ -195,12 +207,12 @@ public class KnockOut extends JavaPlugin {
         streak.put(p, 0);
         Events.resetLastDamage(p);
         if (p2 != null) {
-            p2.playSound(p2.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
+            p2.playSound(p2.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1, 2);
             if (!getCurrentKit().isInfinite())
                 getCurrentKit().addKitItem(p2);
             streak.put(p2, streak.getOrDefault(p2, 0) + 1);
             if (streak.get(p2) % 5 == 0)
-                Bukkit.broadcastMessage(p2.getDisplayName() + " §ahat nun eine " + streak.get(p2) + "er Kill-Streak!");
+                Bukkit.broadcastMessage(CoreAPI.getPrefix("KnockOut") + p2.getDisplayName() + " §ahat nun eine " + streak.get(p2) + "er Kill-Streak!");
         }
         respawn(p);
     }

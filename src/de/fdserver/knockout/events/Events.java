@@ -76,7 +76,7 @@ public class Events implements Listener {
     @EventHandler
     public void onInteractFrame(PlayerInteractAtEntityEvent e) {
         if (e.getRightClicked().getType().equals(EntityType.ITEM_FRAME) && !e.getPlayer().getGameMode().equals(GameMode.CREATIVE))
-                e.setCancelled(true);
+            e.setCancelled(true);
     }
 
     public static void resetLastDamage(Player p) {
@@ -85,7 +85,7 @@ public class Events implements Listener {
     }
 
     public static Player getLastDamager(Player p) {
-        if(lastDamage.getOrDefault(p, System.currentTimeMillis()) < System.currentTimeMillis() - 15*1000) {
+        if (lastDamage.getOrDefault(p, System.currentTimeMillis()) < System.currentTimeMillis() - 15 * 1000) {
             lastDamage.remove(p);
             lastDamager.remove(p);
         }
@@ -95,7 +95,6 @@ public class Events implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
-        e.setJoinMessage("§7[§a+§7] " + p.getDisplayName());
         p.setGameMode(GameMode.ADVENTURE);
         KnockOut.respawn(p);
     }
@@ -103,7 +102,6 @@ public class Events implements Listener {
     @EventHandler
     public void onQuit(PlayerQuitEvent e) {
         Player p = e.getPlayer();
-        e.setQuitMessage("§7[§c-§7] " + p.getDisplayName());
         KnockOut.streak.remove(p);
         lastDamage.remove(p);
         lastDamager.remove(p);
@@ -124,12 +122,13 @@ public class Events implements Listener {
     @EventHandler
     public void onDamage(EntityDamageEvent e) {
         if (e.getCause().equals(EntityDamageEvent.DamageCause.DROWNING) || e.getCause().equals(EntityDamageEvent.DamageCause.FIRE) ||
-                e.getCause().equals(EntityDamageEvent.DamageCause.FIRE_TICK) || e.getCause().equals(EntityDamageEvent.DamageCause.FALL))
+                e.getCause().equals(EntityDamageEvent.DamageCause.FIRE_TICK) || e.getCause().equals(EntityDamageEvent.DamageCause.FALL) ||
+                e.getCause().equals(EntityDamageEvent.DamageCause.HOT_FLOOR) || e.getCause().equals(EntityDamageEvent.DamageCause.LAVA))
             e.setCancelled(true);
-        if(e.getEntity() instanceof Player && e.getEntity().getLocation().getY() > 90)
+        if (e.getEntity() instanceof Player && e.getEntity().getLocation().getY() > 90)
             e.setCancelled(true);
         e.setDamage(0);
-        if(e.getEntity() instanceof Player p && e.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK) && ((EntityDamageByEntityEvent) e).getDamager() instanceof Player p2) {
+        if (e.getEntity() instanceof Player p && e.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK) && ((EntityDamageByEntityEvent) e).getDamager() instanceof Player p2) {
             lastDamage.put(p, System.currentTimeMillis());
             lastDamager.put(p, p2);
         }
