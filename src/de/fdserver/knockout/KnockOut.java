@@ -57,30 +57,33 @@ public class KnockOut extends JavaPlugin {
         getCommand("forcekit").setExecutor(new Force());
         getCommand("forcemap").setExecutor(new Force());
         Bukkit.getScheduler().runTaskTimer(this, () -> {
-            if (--countdown <= 0) {
-                if (kitVote.isEmpty())
-                    setCurrentKit(getRandomKit());
+            if (--countdown <= 0)
+                if (Bukkit.getOnlinePlayers().size() == 0)
+                    countdown = defaultCountdown;
                 else {
-                    ArrayList<Kit> kits = new ArrayList<>(getAllKits());
-                    Collections.shuffle(kits);
-                    Kit kit = null;
-                    for(Kit k : kits)
-                        if(kit == null || getKitVotes(kit) < getKitVotes(k))
-                            kit = k;
-                    setCurrentKit(kit);
+                    if (kitVote.isEmpty())
+                        setCurrentKit(getRandomKit());
+                    else {
+                        ArrayList<Kit> kits = new ArrayList<>(getAllKits());
+                        Collections.shuffle(kits);
+                        Kit kit = null;
+                        for (Kit k : kits)
+                            if (kit == null || getKitVotes(kit) < getKitVotes(k))
+                                kit = k;
+                        setCurrentKit(kit);
+                    }
+                    if (mapVote.isEmpty())
+                        setCurrentMap(getRandomMap());
+                    else {
+                        ArrayList<String> maps = new ArrayList<>(getAllMaps());
+                        Collections.shuffle(maps);
+                        String map = null;
+                        for (String m : maps)
+                            if (map == null || getMapVotes(map) < getMapVotes(m))
+                                map = m;
+                        setCurrentMap(map);
+                    }
                 }
-                if (mapVote.isEmpty())
-                    setCurrentMap(getRandomMap());
-                else {
-                    ArrayList<String> maps = new ArrayList<>(getAllMaps());
-                    Collections.shuffle(maps);
-                    String map = null;
-                    for(String m : maps)
-                        if(map == null || getMapVotes(map) < getMapVotes(m))
-                            map = m;
-                    setCurrentMap(map);
-                }
-            }
             String time = (countdown > 60 ? " " + countdown / 60 + " Minuten" : "") + (countdown % 60 == 0 ? "" : " " + countdown % 60 + " Sekunden");
             for (Player p : Bukkit.getOnlinePlayers())
                 p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent("§aKit-/Mapwechsel in" + time));
@@ -164,8 +167,8 @@ public class KnockOut extends JavaPlugin {
 
     public static int getMapVotes(String map) {
         int votes = 0;
-        for(Player p : mapVote.keySet())
-            if(mapVote.get(p).equals(map))
+        for (Player p : mapVote.keySet())
+            if (mapVote.get(p).equals(map))
                 votes++;
         return votes;
     }
@@ -195,8 +198,8 @@ public class KnockOut extends JavaPlugin {
 
     public static int getKitVotes(Kit kit) {
         int votes = 0;
-        for(Player p : kitVote.keySet())
-            if(kitVote.get(p).equals(kit))
+        for (Player p : kitVote.keySet())
+            if (kitVote.get(p).equals(kit))
                 votes++;
         return votes;
     }
