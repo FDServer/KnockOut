@@ -1,5 +1,6 @@
 package de.fdserver.knockout;
 
+import de.fdserver.ColorsAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -29,6 +30,7 @@ public class Scoreboard {
         obj.getScore("§aDas Kit").setScore(score--);
         obj.getScore("§a► §f" + KnockOut.getCurrentKit().getName()).setScore(score--);
         p.setScoreboard(sb);
+        ColorsAPI.setScoreboard(p);
     }
 
 }

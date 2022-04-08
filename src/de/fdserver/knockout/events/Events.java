@@ -17,26 +17,6 @@ public class Events implements Listener {
     private static HashMap<Player, Player> lastDamager = new HashMap<>();
 
     @EventHandler
-    public void onBlockBreak(BlockBreakEvent e) {
-        e.setCancelled(true);
-    }
-
-    @EventHandler
-    public void onBlockPlace(BlockPlaceEvent e) {
-        e.setCancelled(true);
-    }
-
-    @EventHandler
-    public void onBlockFade(BlockFadeEvent e) {
-        e.setCancelled(true);
-    }
-
-    @EventHandler
-    public void onDrop(PlayerDropItemEvent e) {
-        e.setCancelled(true);
-    }
-
-    @EventHandler
     public void onSpawnFireball(EntitySpawnEvent e) {
         if (e.getEntityType().equals(EntityType.FIREBALL)) {
             ((Fireball) e.getEntity()).setIsIncendiary(false);
