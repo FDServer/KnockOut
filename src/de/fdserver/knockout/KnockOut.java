@@ -205,7 +205,7 @@ public class KnockOut extends JavaPlugin {
 
     public static void die(Player p) {
         Player p2 = Events.getLastDamager(p);
-        Bukkit.broadcastMessage("§c☠ " + p.getDisplayName() + (p2 == null ? "" : " \uD83D\uDDE1 " + p2.getName()));
+        Bukkit.broadcastMessage("§c☠ " + p.getDisplayName() + (p2 == null ? "" : " §c\uD83D\uDDE1 " + p2.getDisplayName()));
         streak.put(p, 0);
         Events.resetLastDamage(p);
         if (p2 != null) {
