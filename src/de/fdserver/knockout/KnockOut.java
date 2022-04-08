@@ -4,6 +4,7 @@ import com.google.common.io.Files;
 import de.fdserver.knockout.commands.Force;
 import de.fdserver.knockout.events.Events;
 import de.fdserver.knockout.events.SpecialKits;
+import de.fdserver.worldprotect.WorldProtect;
 import de.myfdweb.minecraft.api.CoreAPI;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -51,6 +52,9 @@ public class KnockOut extends JavaPlugin {
                 }
             }
 
+        WorldProtect.getWorldProtectConfig().setDamageAllowed(true);
+        WorldProtect.getWorldProtectConfig().setExplodeAllowed(true);
+
         Bukkit.getPluginManager().registerEvents(new Events(), this);
         Bukkit.getPluginManager().registerEvents(new SpecialKits(), this);
         Bukkit.getPluginManager().registerEvents(new Vote(), this);
@@ -88,11 +92,6 @@ public class KnockOut extends JavaPlugin {
             for (Player p : Bukkit.getOnlinePlayers())
                 p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent("§aKit-/Mapwechsel in" + time));
         }, 0, 20);
-    }
-
-    @Override
-    public void onDisable() {
-
     }
 
     public static World getCurrentMap() {
